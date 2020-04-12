@@ -31,12 +31,9 @@ public class CompetitionDijkstra {
      * @param sA, sB, sC: speeds for 3 contestants
      * @throws FileNotFoundException 
     */
-    CompetitionDijkstra (String filename, int sA, int sB, int sC) throws FileNotFoundException
+    CompetitionDijkstra (String filename, int sA, int sB, int sC)
     {
-    	if(filename == null)
-    	{
-    		throw new NullPointerException("file cannot be null!");
-    	}
+    	try {
     	File inputFile = new File(filename);
     	Scanner fileScanner;
     	fileScanner = new Scanner(inputFile);
@@ -58,6 +55,10 @@ public class CompetitionDijkstra {
     		}
     	}
     	fileScanner.close();
+    	} catch (FileNotFoundException e) {
+    	} catch( NullPointerException e) {
+    	}
+    	
     }
 
 
@@ -66,7 +67,7 @@ public class CompetitionDijkstra {
     */
     public int timeRequiredforCompetition()
     {
-    	if(speedA < 50 || speedB < 50 || speedC < 50 || speedA > 100 || speedB > 100 || speedC > 100)
+    	if(speedA < 50 || speedB < 50 || speedC < 50 || speedA > 100 || speedB > 100 || speedC > 100 || graph.numberOfVertices() == 0)
     	{
     		return -1;
     	}

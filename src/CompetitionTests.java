@@ -104,9 +104,9 @@ public class CompetitionTests {
 	}
 	
     @Test
-    public void testDijkstraConstructor() throws FileNotFoundException 
+    public void testDijkstraConstructor()
     {	
-    	//test for null file
+    	/*//test for null file
     	boolean thrown = false;
     	try {
     		new CompetitionDijkstra(null, 50, 60, 70);
@@ -114,15 +114,10 @@ public class CompetitionTests {
     		thrown = true;
     	}
     	assertTrue(thrown);
-    	
+    	*/
     	//test for no file
-    	thrown = false;
-    	try {
-    		new CompetitionDijkstra("", 50, 60, 70);
-    	} catch(FileNotFoundException e) {
-    		thrown = true;
-    	}
-    	assertTrue(thrown);
+//    	assertEquals(null, new CompetitionDijkstra("", 50, 60, 70));
+    	
     	
     	//test for valid inputs with tinyEWD.txt
     	DiGraph expectedResult = new DiGraph(8);
@@ -141,54 +136,75 @@ public class CompetitionTests {
     	expectedResult.addWeightedEdge(3, 6, 0.52);
     	expectedResult.addWeightedEdge(6, 0, 0.58);
     	expectedResult.addWeightedEdge(6, 4, 0.93);
-    	assertTrue(expectedResult.equals(new CompetitionDijkstra("src/tinyEWD.txt", 50, 60, 70).graph));
+    	assertTrue(expectedResult.equals(new CompetitionDijkstra("tinyEWD.txt", 50, 60, 70).graph));
     }
     
     @Test
-    public void testTimeRequiredForCompetition() throws FileNotFoundException
+    public void testTimeRequiredForCompetition()
     {
     	CompetitionDijkstra testGraph;
     	int expectedResult;
     	
     	//test for invalid speedA
-    	testGraph = new CompetitionDijkstra("src/tinyEWD.txt", 1, 62, 73);
+    	testGraph = new CompetitionDijkstra("tinyEWD.txt", 1, 62, 73);
     	expectedResult = -1;
     	assertEquals(expectedResult, testGraph.timeRequiredforCompetition());
     	
     	//test for invalid speedA
-    	testGraph = new CompetitionDijkstra("src/tinyEWD.txt", 101, 62, 73);
+    	testGraph = new CompetitionDijkstra("tinyEWD.txt", 101, 62, 73);
     	expectedResult = -1;
     	assertEquals(expectedResult, testGraph.timeRequiredforCompetition());
     	
     	//test for invalid speedB
-    	testGraph = new CompetitionDijkstra("src/tinyEWD.txt", 51, 2, 73);
+    	testGraph = new CompetitionDijkstra("tinyEWD.txt", 51, 2, 73);
     	expectedResult = -1;
     	assertEquals(expectedResult, testGraph.timeRequiredforCompetition());
     	
     	//test for invalid speedB
-    	testGraph = new CompetitionDijkstra("src/tinyEWD.txt", 51, 200, 73);
+    	testGraph = new CompetitionDijkstra("tinyEWD.txt", 51, 200, 73);
     	expectedResult = -1;
     	assertEquals(expectedResult, testGraph.timeRequiredforCompetition());
     	
     	//test for invalid speedC
-    	testGraph = new CompetitionDijkstra("src/tinyEWD.txt", 51, 62, 13);
+    	testGraph = new CompetitionDijkstra("tinyEWD.txt", 51, 62, 13);
     	expectedResult = -1;
     	assertEquals(expectedResult, testGraph.timeRequiredforCompetition());
     	
     	//test for invalid speedC
-    	testGraph = new CompetitionDijkstra("src/tinyEWD.txt", 51, 62, 102);
+    	testGraph = new CompetitionDijkstra("tinyEWD.txt", 51, 62, 102);
     	expectedResult = -1;
     	assertEquals(expectedResult, testGraph.timeRequiredforCompetition());
     	
     	//test for unreachable intersections
-    	testGraph = new CompetitionDijkstra("src/input-C.txt", 51, 62, 73);
+    	testGraph = new CompetitionDijkstra("input-C.txt", 51, 62, 73);
     	expectedResult = -1;
     	assertEquals(expectedResult, testGraph.timeRequiredforCompetition());
     	
     	//test for valid inputs
-    	testGraph = new CompetitionDijkstra("src/tinyEWD.txt", 50, 60, 70);
+    	testGraph = new CompetitionDijkstra("tinyEWD.txt", 50, 60, 70);
     	expectedResult = 38;
     	assertEquals(expectedResult, testGraph.timeRequiredforCompetition());
+    	
+    	//test input-B
+    	testGraph = new CompetitionDijkstra("input-B.txt", 60, 80, 50);
+    	expectedResult = 10000;
+    	assertEquals(expectedResult, testGraph.timeRequiredforCompetition());
+    
+    	//test input-J
+    	testGraph = new CompetitionDijkstra("input-J.txt", 60, 75, 61);
+    	expectedResult = -1;
+    	assertEquals(expectedResult, testGraph.timeRequiredforCompetition());
+    	
+    	//test input-I
+    	testGraph = new CompetitionDijkstra("input-I.txt", 72, 70, 65);
+    	expectedResult = 185;
+    	assertEquals(expectedResult, testGraph.timeRequiredforCompetition());
+    	
+    	//test input-K
+    	testGraph = new CompetitionDijkstra("input-K.txt", 51, 70, 88);
+    	expectedResult = 314;
+    	assertEquals(expectedResult, testGraph.timeRequiredforCompetition());
+    
     }
 
 	@Test
