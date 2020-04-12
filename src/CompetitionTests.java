@@ -34,6 +34,8 @@ public class CompetitionTests {
     	expectedResult.addWeightedEdge(6, 0, 0.58);
     	expectedResult.addWeightedEdge(6, 4, 0.93);
     	assertTrue(expectedResult.equals(new CompetitionDijkstra("src/tinyEWD.txt", 1, 2, 3).graph));
+    	
+    	Dijkstra.getShortestDistance((new CompetitionDijkstra("src/tinyEWD.txt", 1, 2, 3).graph), 0);
     }
 
 	@Test
