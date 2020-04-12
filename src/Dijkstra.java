@@ -1,8 +1,7 @@
 
-
 public class Dijkstra {
 
-	private static DijkstraResults run(DiGraph graph, int sourceKey) 
+	private static double[] run(DiGraph graph, int sourceKey) 
 	{
 		double[] distTo = new double[graph.numberOfVertices()];
 		for(int i = 0 ; i < distTo.length ; i++)
@@ -12,11 +11,14 @@ public class Dijkstra {
 		distTo[sourceKey] = 0;
 		
 		VertexPriorityQueue vertexQueue = new VertexPriorityQueue();
+		graph.graph(sourceKey).setDistTo(0);
 		for(int i = 0 ; i < graph.graph().length ; i++)
 		{
+			if(i != sourceKey) graph.graph(i).resetDistTo();
+			graph.graph(i).resetEdges();
 			vertexQueue.enqueue(graph.graph(i));
 		}
-		graph.graph(sourceKey).setDistTo(0);
+		
 		WeightedEdge[] edgeTo = new WeightedEdge[graph.numberOfVertices()];
 		boolean[] relaxed = new boolean[graph.numberOfVertices()];//this array will note whether or not a vertex has been visited and relaxed already, to prevent the algorithm back-tracking to vertices it has already covered
 		for(int i = 0 ; i < relaxed.length ; i++)
@@ -28,7 +30,16 @@ public class Dijkstra {
 		{
 			relaxVertex(vertexQueue.dequeue(), distTo, edgeTo, relaxed, vertexQueue);
 		}
-		return new DijkstraResults(distTo, edgeTo);
+		//check for any infinities still in distTo which indicate that a vertex is unreachable
+		for(int i = 0 ; i < distTo.length ; i++)
+		{
+			if(distTo[i] == Double.MAX_VALUE)
+			{
+				return null;
+			}
+		}
+		
+		return distTo;
 	}
 	
 	private static void relaxVertex(Vertex vertex, double[] distTo, WeightedEdge[] edgeTo, boolean[] relaxed, VertexPriorityQueue vertexQueue)
@@ -52,9 +63,21 @@ public class Dijkstra {
 		}
 	}
 	
-	public static double getShortestDistance(DiGraph graph, int source)
+	public static double getLongestShortestDistance(DiGraph graph, int source)
 	{
-		run(graph, source);
-		return -1;
+		double[] shortestDistances = run(graph, source);
+		if(shortestDistances == null)
+		{
+			return -1;
+		}
+		double shortestDistTo = Double.MIN_VALUE;
+		for(int i = 0 ; i < shortestDistances.length ; i++)
+		{
+			if(i != source)
+			{
+				shortestDistTo = Math.max(shortestDistTo, shortestDistances[i]);
+			}
+		}		
+		return shortestDistTo;
 	}
 }

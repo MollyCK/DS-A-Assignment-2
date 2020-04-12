@@ -10,7 +10,7 @@ public class DiGraph
 		graph = new Vertex[numberofVertices];
 		for(int i = 0 ; i < numberOfVertices ; i++)
 		{
-			graph[i] = new Vertex(i, numberofVertices);
+			graph[i] = new Vertex(i);
 		}
 	}
 	
@@ -32,11 +32,6 @@ public class DiGraph
 	public void addWeightedEdge(int originKey, int destinationKey, double weight) 
 	{
 		graph[originKey].addWeightedEdge(graph[destinationKey], weight);
-	}
-	
-	public WeightedEdge getEdge(int originKey, int destinationKey)
-	{
-		return graph[originKey].getEdgeTo(destinationKey);
 	}
 
 	public boolean equals(DiGraph graph2)

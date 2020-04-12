@@ -1,15 +1,13 @@
 
 public class Vertex {
 	
-//	private int numberOfAttachedVertices;
 	private WEPriorityQueue outgoingEdges;
 	private int key;
 	private double distTo = Double.MAX_VALUE;
 	
-	Vertex(int key, int numberOfAttachedVertices)
+	Vertex(int key)
 	{
 		this.key = key;
-//		this.numberOfAttachedVertices = numberOfAttachedVertices;
 		outgoingEdges = new WEPriorityQueue();
 	}
 	
@@ -21,6 +19,11 @@ public class Vertex {
 	public void setDistTo(double newVal)
 	{
 		this.distTo = newVal;
+	}
+	
+	public void resetDistTo()
+	{
+		this.distTo = Double.MAX_VALUE;
 	}
 	
 	public int key() 
@@ -37,27 +40,25 @@ public class Vertex {
 	{
 		outgoingEdges.enqueue(new WeightedEdge(this, destination, weight));
 	}
-	
-	public WeightedEdge getEdgeTo(int destinationKey)
-	{
-		return outgoingEdges.getEdgeTo(this.key, destinationKey);
-	}
-	
+
 	public boolean equals(Vertex vertex2)
 	{
-		if(this.key != vertex2.key() || this.outgoingEdges.length() != vertex2.outgoingEdges.length())
+		if(vertex2 == null || this.key != vertex2.key() || this.outgoingEdges.length() != vertex2.outgoingEdges.length())
 		{
 			return false;
 		}
 		for(int i = 0 ; i < this.outgoingEdges.length() ; i++)
 		{
-			if(this.outgoingEdges.get(i) != null) {
-				if(!this.outgoingEdges.get(i).equals(vertex2.outgoingEdges.get(i)))
-				{
-					return false;
-				}
+			if(!this.outgoingEdges.get(i).equals(vertex2.outgoingEdges.get(i)))
+			{
+				return false;
 			}
 		}
 		return true;
+	}
+	
+	public void resetEdges()
+	{
+		this.outgoingEdges.reset();
 	}
 }

@@ -3,10 +3,12 @@ import java.util.ArrayList;
 public class WEPriorityQueue {
 
 	ArrayList<WeightedEdge> queue;
+	ArrayList<WeightedEdge> backup;
 
 	WEPriorityQueue()
 	{
 		this.queue = new ArrayList<WeightedEdge>();
+		this.backup = new ArrayList<WeightedEdge>();;
 	}
 
 	public void enqueue(WeightedEdge edge)
@@ -14,6 +16,7 @@ public class WEPriorityQueue {
 		if(this.queue.isEmpty())
 		{
 			this.queue.add(edge);
+			this.backup.add(edge);
 		}
 		else
 		{
@@ -22,16 +25,20 @@ public class WEPriorityQueue {
 				if(edge.weight() < this.queue.get(i).weight())
 				{
 					this.queue.add(i, edge);
+					this.backup.add(i, edge);
 					return;
 				}
 			}
 			this.queue.add(edge);
+			this.backup.add(edge);
 		}
 	}
 
 	public WeightedEdge dequeue()
 	{
-		return this.queue.remove(0);
+		WeightedEdge removedEdge = this.queue.remove(0);
+//		this.backup.add(removedEdge);
+		return removedEdge;
 	}
 	
 	public int length()
@@ -44,15 +51,11 @@ public class WEPriorityQueue {
 		return this.queue.get(index);
 	}
 	
-	public WeightedEdge getEdgeTo(int originKey, int destinationKey)
+	public void reset()
 	{
-		for(int i = 0 ; i < this.queue.size() ; i++)
+		for(int i = 0 ; i < this.backup.size() ; i++)
 		{
-			if(this.queue.get(i).origin().key() == originKey && this.queue.get(i).destination().key() == destinationKey)
-			{
-				return this.queue.get(i);
-			}
+			this.queue.add(this.backup.get(i));
 		}
-		return null;
 	}
 }
