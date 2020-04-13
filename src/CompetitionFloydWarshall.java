@@ -1,3 +1,7 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
 /*
  * A Contest to Meet (ACM) is a reality TV contest that sets three contestants at three random
  * city intersections. In order to win, the three contestants need all to meet at any intersection
@@ -17,13 +21,47 @@
 
 public class CompetitionFloydWarshall {
 
+	double[][] distTo;
+	int speedA, speedB, speedC;
+	
     /**
      * @param filename: A filename containing the details of the city road network
      * @param sA, sB, sC: speeds for 3 contestants
      */
-    CompetitionFloydWarshall (String filename, int sA, int sB, int sC){
-
-        //TODO
+    CompetitionFloydWarshall (String filename, int sA, int sB, int sC)
+    {
+        speedA = sA;
+        speedB = sB;
+        speedC = sC;
+        try 
+        {
+        	File inputFile = new File(filename);
+        	Scanner fileScanner = new Scanner(inputFile);
+        	int numberOfVertices = fileScanner.nextInt();
+        	distTo = new double[numberOfVertices][numberOfVertices] ;
+        	fileScanner.nextLine();
+        	fileScanner.nextLine();
+        	for(int i = 0 ; i < numberOfVertices ; i++)
+        	{
+        		for(int j = 0 ; j < numberOfVertices; j++)
+        		{
+        			if(j == i)
+        			{
+        				distTo[i][j] = 0;
+        			} 
+        			else distTo[i][j] = Double.MAX_VALUE;
+        		}
+        	}
+        	while(fileScanner.hasNextLine())
+        	{
+        		distTo[fileScanner.nextInt()][fileScanner.nextInt()] = fileScanner.nextDouble();
+        		if(fileScanner.hasNextLine())
+        		{
+        			fileScanner.nextLine();
+        		}
+        	}
+        fileScanner.close();
+        } catch (FileNotFoundException e) {}
     }
 
 

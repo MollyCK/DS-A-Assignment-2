@@ -55,9 +55,7 @@ public class CompetitionDijkstra {
     		}
     	}
     	fileScanner.close();
-    	} catch (FileNotFoundException e) {
-    	} catch( NullPointerException e) {
-    	}
+    	} catch (FileNotFoundException e) {} catch( NullPointerException e) {}
     	
     }
 

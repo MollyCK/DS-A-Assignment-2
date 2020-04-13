@@ -209,7 +209,34 @@ public class CompetitionTests {
 
 	@Test
     public void testFWConstructor() {
-        //TODO
+        double[][] testDistTo = new double[8][8];
+        for(int i = 0 ; i < 8 ; i++)
+        {
+        	for(int j = 0 ; j < 8 ; j++)
+        	{
+        		testDistTo[i][j] = Double.MAX_VALUE;
+        	}
+        }
+        for(int i = 0 ; i < 8 ; i++)
+        {
+        	testDistTo[i][i] = 0;
+        }
+        testDistTo[4][5] = 0.35;
+        testDistTo[5][4] = 0.35;
+        testDistTo[4][7] = 0.37;
+        testDistTo[5][7] = 0.28;
+        testDistTo[7][5] = 0.28;
+        testDistTo[5][1] = 0.32;
+        testDistTo[0][4] = 0.38;
+        testDistTo[0][2] = 0.26;
+        testDistTo[7][3] = 0.39;
+        testDistTo[1][3] = 0.29;
+        testDistTo[2][7] = 0.34;
+        testDistTo[6][2] = 0.40;
+        testDistTo[3][6] = 0.52;
+        testDistTo[6][0] = 0.58;
+        testDistTo[6][4] = 0.93;
+        assertEquals(testDistTo, new CompetitionFloydWarshall("tinyEWD.txt", 50, 60, 70).distTo);
 	}
 
 	//TODO - more tests
