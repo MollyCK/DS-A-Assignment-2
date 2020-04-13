@@ -55,23 +55,57 @@ public class CompetitionFloydWarshall {
         	while(fileScanner.hasNextLine())
         	{
         		distTo[fileScanner.nextInt()][fileScanner.nextInt()] = fileScanner.nextDouble();
-        		if(fileScanner.hasNextLine())
-        		{
-        			fileScanner.nextLine();
-        		}
+        		if(fileScanner.hasNextLine()) fileScanner.nextLine();
         	}
         fileScanner.close();
-        } catch (FileNotFoundException e) {}
+        } catch (FileNotFoundException e) {} catch (NullPointerException e) {}
     }
 
 
     /**
      * @return int: minimum minutes that will pass before the three contestants can meet
      */
-    public int timeRequiredforCompetition(){
-
-        //TO DO
-        return -1;
+    public int timeRequiredforCompetition()
+    {
+    	if(speedA < 50 || speedB < 50 || speedC < 50 || speedA > 100 || speedB > 100 || speedC > 100 || distTo.length == 0)
+    	{
+    		return -1;
+    	}
+    	double minimumMinutesToMeeting = -1;
+    	double longestShortestDistance = -1;
+    	int slowestSpeed = Math.min(speedA, Math.min(speedB, speedC));
+    	runFloydWarshall();
+    	for(int i = 0 ; i < distTo.length ; i++)
+    	{
+    		for(int j = 0 ; j < distTo[i].length ; j++)
+    		{
+    			if(distTo[i][j] == Double.MAX_VALUE)
+    			{
+    				return -1;
+    			}
+    			longestShortestDistance = Math.max(longestShortestDistance, distTo[i][j]);
+    		}
+    	}
+    	minimumMinutesToMeeting = longestShortestDistance*1000/slowestSpeed;
+    	return (int)Math.ceil(minimumMinutesToMeeting);
     }
+
+
+	private void runFloydWarshall() {
+		for(int k = 0 ; k < distTo.length ; k++)
+		{
+			for(int i = 0 ; i < distTo.length ; i++)
+			{
+				for(int j = 0 ; j < distTo[i].length ; j++)
+				{
+					if(distTo[i][k] + distTo[k][j] < distTo[i][j])
+					{
+						distTo[i][j] = distTo[i][k] + distTo[k][j];
+					}
+				}
+			}
+		}
+		
+	}
 
 }

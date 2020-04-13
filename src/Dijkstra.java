@@ -3,10 +3,6 @@ public class Dijkstra {
 
 	private static double[] run(DiGraph graph, int sourceKey) 
 	{
-		if(graph.numberOfVertices() == 0)
-		{
-			return null;
-		}
 		double[] distTo = new double[graph.numberOfVertices()];
 		for(int i = 0 ; i < distTo.length ; i++)
 		{
